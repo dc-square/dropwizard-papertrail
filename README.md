@@ -1,6 +1,8 @@
 Dropwizard Papertrail
 =====================
 
+[![Build Status](https://travis-ci.org/dc-square/dropwizard-papertrail.svg?branch=master)](https://travis-ci.org/dc-square/dropwizard-papertrail)
+
 Addon for Dropwizard adding support for logging to [Papertrail](https://papertrailapp.com).
 
 Important: This addon only supports sending data to papertrail over TLS. If you need insecure communication this plugin is not for you.
