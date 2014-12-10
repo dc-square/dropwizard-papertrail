@@ -14,7 +14,7 @@
 
     <groupId>com.dcsquare</groupId>
     <artifactId>dropwizard-papertrail</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
 
     <inceptionYear>2014</inceptionYear>
 
