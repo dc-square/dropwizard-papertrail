@@ -3,14 +3,13 @@ Dropwizard Papertrail
 
 Addon for Dropwizard adding support for logging to [Papertrail](https://papertrailapp.com).
 
-Important: This addon only supports sending data to papertrail over TLS. If you need insecure communication this plugin is not for yu.
+Important: This addon only supports sending data to papertrail over TLS. If you need insecure communication this plugin is not for you.
 
 
 Usage
 -----
 
-The Dropwizard GELF provides an `AppenderFactory` which is automatically registered in Dropwizard and will send log
-messages directly to Papertrail.
+The Dropwizard Papertrail addon provides an `AppenderFactory` which is automatically registered in Dropwizard and will send log messages directly to Papertrail.
 
 
 Configuration
