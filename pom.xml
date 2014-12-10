@@ -108,6 +108,15 @@
         </plugins>
     </build>
 
+    <distributionManagement>
+        <repository>
+            <id>bintray-dc-square-dropwizard-papertrail-dropwizard-papertrail</id>
+            <name>dc-square-dropwizard-papertrail-dropwizard-papertrail</name>
+            <url>https://api.bintray.com/maven/dc-square/dropwizard-papertrail/dropwizard-papertrail</url>
+        </repository>
+    </distributionManagement>
+
+
 
     <ciManagement>
         <system>travis</system>
