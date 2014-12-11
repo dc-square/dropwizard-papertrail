@@ -17,6 +17,7 @@
     <version>1.0</version>
 
     <inceptionYear>2014</inceptionYear>
+    <url>https://github.com/dc-square/dropwizard-papertrail</url>
 
     <organization>
         <name>dc-square GmbH</name>
@@ -107,6 +108,7 @@
             </plugin>
         </plugins>
     </build>
+
 
     <distributionManagement>
         <repository>
