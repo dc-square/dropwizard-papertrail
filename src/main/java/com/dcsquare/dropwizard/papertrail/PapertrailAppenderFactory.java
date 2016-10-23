@@ -3,11 +3,13 @@ package com.dcsquare.dropwizard.papertrail;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Appender;
-import ch.qos.logback.core.Layout;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.papertrailapp.logback.Syslog4jAppender;
 import io.dropwizard.logging.AbstractAppenderFactory;
+import io.dropwizard.logging.async.AsyncAppenderFactory;
+import io.dropwizard.logging.filter.LevelFilterFactory;
+import io.dropwizard.logging.layout.LayoutFactory;
 import io.dropwizard.validation.PortRange;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.productivity.java.syslog4j.impl.net.tcp.ssl.SSLTCPNetSyslogConfig;
@@ -19,7 +21,7 @@ import java.util.TimeZone;
  * @author Dominik Obermaier
  */
 @JsonTypeName("papertrail")
-public class PapertrailAppenderFactory extends AbstractAppenderFactory {
+public class PapertrailAppenderFactory extends AbstractAppenderFactory<ILoggingEvent> {
 
     @JsonProperty
     @NotEmpty
@@ -43,7 +45,6 @@ public class PapertrailAppenderFactory extends AbstractAppenderFactory {
 
     @JsonProperty
     private boolean sendLocalName = true;
-
 
     public String getIdent() {
         return ident;
@@ -94,10 +95,14 @@ public class PapertrailAppenderFactory extends AbstractAppenderFactory {
     }
 
     @Override
-    public Appender<ILoggingEvent> build(final LoggerContext context, final String applicationName, final Layout<ILoggingEvent> layout) {
+    public Appender<ILoggingEvent> build(LoggerContext context,
+                          String applicationName,
+                          LayoutFactory<ILoggingEvent> layoutFactory,
+                          LevelFilterFactory<ILoggingEvent> levelFilterFactory,
+                          AsyncAppenderFactory<ILoggingEvent> asyncAppenderFactory) {
         final Syslog4jAppender<ILoggingEvent> syslogAppender = new Syslog4jAppender<>();
         syslogAppender.setContext(context);
-        syslogAppender.setLayout(layout == null ? buildLayout(context, timeZone) : layout);
+        syslogAppender.setLayout(buildLayout(context, layoutFactory));
         syslogAppender.setName("SYSLOG-TLS");
         final SSLTCPNetSyslogConfig syslogConfig = new SSLTCPNetSyslogConfig();
 
@@ -109,7 +114,7 @@ public class PapertrailAppenderFactory extends AbstractAppenderFactory {
 
         syslogAppender.setSyslogConfig(syslogConfig);
 
-        addThresholdFilter(syslogAppender, threshold);
+        syslogAppender.addFilter(levelFilterFactory.build(threshold));
         syslogAppender.start();
 
         return syslogAppender;
